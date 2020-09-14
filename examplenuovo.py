@@ -746,6 +746,8 @@ if __name__ == '__main__':
     config.read('example.ini')
     config.sections()
 
+    nomeconfigparser = 0
+
     print('Number of arguments:', len(sys.argv), 'arguments.')
     print('Argument List:', str(sys.argv))
 
@@ -755,24 +757,38 @@ if __name__ == '__main__':
     # listgpio = ["gpiochip0", "gpiochip504", "export"]
     listgpio = ["gpiochip0", "gpiochip504", "export", "unexport"]
 
-    for count in range(1, 27):
-        # print(count, "gpio" + str(count))
-        # print(config[nomecontainer]['gpio' + str(count)])
-        if config[nomecontainer]['gpio' + str(count)] == 'yes':
-            # print(count, "gpio" + str(count), "ok")
-            listgpio.append("gpio" + str(count))
-        print("\n")
+    if nomecontainer in config.sections():
+        print("nome container presente nel file di configurazione")
+        nomeconfigparser = 1
+    else:
+        print("nome container non presente nel file di configurazione\n\n\n")
+        nomeconfigparser = 0
+
+
 
     # listgpio = ["gpiochip0", "gpiochip504", "export", "unexport"]
     listgpio2 = []
 
-    for count in range(1, 27):
-        # print(count, "gpio" + str(count))
-        # print(config[nomecontainer]['gpio' + str(count)])
-        if config[nomecontainer]['gpio' + str(count)] == 'yes':
-            # print(count, "gpio" + str(count), "ok")
-            listgpio2.append(count)
-        print("\n")
+    if nomeconfigparser == 1:
+        for count in range(1, 27):
+            # print(count, "gpio" + str(count))
+            # print(config[nomecontainer]['gpio' + str(count)])
+            if config[nomecontainer]['gpio' + str(count)] == 'yes':
+                # print(count, "gpio" + str(count), "ok")
+                listgpio.append("gpio" + str(count))
+
+            if config[nomecontainer]['gpio' + str(count)] == 'yes':
+                # print(count, "gpio" + str(count), "ok")
+                listgpio2.append(count)
+            print("\n")
+
+    else:
+        print("il nome del container non è all'interno del file di configurazione")
+
+
+
+
+
 
     export = [0]
     export.clear()
