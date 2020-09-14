@@ -42,8 +42,6 @@ echo "restarting filesystem "$nome"!"
 sudo umount --force /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio
 sudo umount --force /gpio_mnt/"$nome"/sys/class/gpio
 
-sudo umount --force /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio
-sudo umount --force /gpio_mnt/"$nome"/sys/class/gpio
 
 
 python3 "$pass" /sys/devices/platform/soc/3f200000.gpio /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio/ $nome &
