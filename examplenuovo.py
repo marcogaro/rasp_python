@@ -457,8 +457,6 @@ class Operations(pyfuse3.Operations):
         self._add_path(attr.st_ino, path)
         return attr
 
-
-
     async def statfs(self, ctx):
         root = self._inode_path_map[pyfuse3.ROOT_INODE]
         stat_ = pyfuse3.StatvfsData()
@@ -707,8 +705,8 @@ def parse_args(args):
     parser.add_argument('--debug-fuse', action='store_true', default=False,
                         help='Enable FUSE debugging output')
 
-    #parser.add_argument('nomecontainer', type=str, 
-                        #help='nomecontainer')
+    # parser.add_argument('nomecontainer', type=str,
+    # help='nomecontainer')
 
     return parser.parse_args(args)
 
@@ -723,7 +721,7 @@ def main():
     fuse_options.add('fsname=passthroughfs')
 
     fuse_options.add('allow_other')
-    
+
     if options.debug_fuse:
         fuse_options.add('debug')
 
@@ -750,19 +748,17 @@ if __name__ == '__main__':
 
     print('Number of arguments:', len(sys.argv), 'arguments.')
     print('Argument List:', str(sys.argv))
-    
-    nome=sys.argv[3]
-    print("nome container: ", nome)
 
-
+    nomecontainer = sys.argv[3]
+    print("nome container: ", nomecontainer)
 
     # listgpio = ["gpiochip0", "gpiochip504", "export"]
     listgpio = ["gpiochip0", "gpiochip504", "export", "unexport"]
 
     for count in range(1, 27):
         # print(count, "gpio" + str(count))
-        # print(config['gpiotest2']['gpio' + str(count)])
-        if config['gpiotest2']['gpio' + str(count)] == 'yes':
+        # print(config[nomecontainer]['gpio' + str(count)])
+        if config[nomecontainer]['gpio' + str(count)] == 'yes':
             # print(count, "gpio" + str(count), "ok")
             listgpio.append("gpio" + str(count))
         print("\n")
@@ -772,8 +768,8 @@ if __name__ == '__main__':
 
     for count in range(1, 27):
         # print(count, "gpio" + str(count))
-        # print(config['gpiotest2']['gpio' + str(count)])
-        if config['gpiotest2']['gpio' + str(count)] == 'yes':
+        # print(config[nomecontainer]['gpio' + str(count)])
+        if config[nomecontainer]['gpio' + str(count)] == 'yes':
             # print(count, "gpio" + str(count), "ok")
             listgpio2.append(count)
         print("\n")
