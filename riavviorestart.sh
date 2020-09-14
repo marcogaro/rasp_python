@@ -31,6 +31,8 @@ sed 's/test2/'$nome'/g' example.py > $file.$nome.py
 
 
 pass=""$file"."$nome".py"
+
+pass="examplenuovo.py"
 echo $pass
 
 
@@ -44,5 +46,5 @@ sudo umount --force /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio
 sudo umount --force /gpio_mnt/"$nome"/sys/class/gpio
 
 
-python3 "$pass" /sys/devices/platform/soc/3f200000.gpio /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio/ &
-python3 "$pass" /sys/class/gpio/ /gpio_mnt/"$nome"/sys/class/gpio/ &
+python3 "$pass" /sys/devices/platform/soc/3f200000.gpio /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio/ $nome &
+python3 "$pass" /sys/class/gpio/ /gpio_mnt/"$nome"/sys/class/gpio/ $nome &
