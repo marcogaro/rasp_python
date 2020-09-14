@@ -44,7 +44,7 @@ echo "risultato: " $risultato
 if [ $risultato -eq 0  ]; then
 	echo "esiste";
 	./destroynuovo.sh $nome;
-	sudo rm -rf $file.$nome.py;
+	#sudo rm -rf $file.$nome.py;
 else 
 	echo "non esiste"; 
 fi
@@ -67,7 +67,7 @@ fi
 
 
 #creo passt
-sed 's/test2/'$nome'/g' example.py > $file.$nome.py
+#sed 's/test2/'$nome'/g' example.py > $file.$nome.py
 
 
 #aggiorno i permessi
