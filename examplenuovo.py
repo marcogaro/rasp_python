@@ -14,6 +14,7 @@ import os
 import sys
 import configparser
 import re
+import subprocess
 
 # If we are running from the pyfuse3 source directory, try
 # to load the module from there first.
@@ -471,13 +472,16 @@ class Operations(pyfuse3.Operations):
         return stat_
 
     async def open(self, inode, flags, ctx):
+        print("open")
         if inode in self._inode_fd_map:
             fd = self._inode_fd_map[inode]
+            print("fd:", fd)
             self._fd_open_count[fd] += 1
             return pyfuse3.FileInfo(fh=fd)
         assert flags & os.O_CREAT == 0
         try:
             fd = os.open(self._inode_to_path(inode), flags)
+            print("fd2:", fd)
         except OSError as exc:
             raise FUSEError(exc.errno)
         self._inode_fd_map[inode] = fd
@@ -499,6 +503,7 @@ class Operations(pyfuse3.Operations):
         return (pyfuse3.FileInfo(fh=fd), attr)
 
     async def read(self, fd, offset, length):
+        print("leggo", fd, length)
         os.lseek(fd, offset, os.SEEK_SET)
         return os.read(fd, length)
 
@@ -569,12 +574,38 @@ class Operations(pyfuse3.Operations):
 
             if direction[0] == 1:
                 print("caso direction:")
+                pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
+                basename = os.path.basename(ultimopath[0])
+                basename = '/' + basename
+                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+                gpio = os.path.dirname(pathmod)
+                print("gpio:", gpio)
+                valoredirezioneprima = os.popen('cat /sys/class/gpio/' + gpio + '/direction').read()
+                valoredirezioneprima = valoredirezioneprima.strip('\n')
+                print("valore direzione", valoredirezioneprima)
+                stringa='\n'
+                print("il valore direzione prima di essere aggiornato è: ", valoredirezioneprima, 'b\''+valoredirezioneprima+stringa )
+                valoredirezioneprimabyte = valoredirezioneprima+stringa
+                valoredirezioneprimabyte = valoredirezioneprima.encode()
+                print("attenszione: ", valoredirezioneprimabyte)
+                print("buff:", buf, "fd:", fd)
                 if gpiobyte == 'in' or gpiobyte == 'out':
+                    print("ok1")
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("errore")
+                    print("errore1")
+                    #os.system('echo in > /gpio_mnt/test1/sys/class/gpio/gpio1/direction')
+                    proc = subprocess.Popen('echo '+valoredirezioneprima+' > /gpio_mnt/'+nomecontainer+'/sys/class/gpio/'+gpio+'/direction', shell=True, stdout=subprocess.PIPE)
 
+                    os.lseek(fd, offset, os.SEEK_SET)
+                    return 1
+
+
+
+
+
+                    '''
                     pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
                     basename = os.path.basename(ultimopath[0])
                     basename = '/' + basename
@@ -584,6 +615,7 @@ class Operations(pyfuse3.Operations):
 
                     valoredirezione = os.popen('cat /sys/class/gpio/' + gpio + '/direction').read()
                     valoredirezione = valoredirezione.strip('\n')
+                    '''
 
                     # print("valore direzione: ", valoredirezione)
                     # print('echo '+valoredirezione+' > /gpio_mnt/test2/sys/class/gpio/'+gpio+'/direction')
@@ -591,10 +623,10 @@ class Operations(pyfuse3.Operations):
                     # print(cmd)
 
                     # os.popen('./riavvio.sh test2').read()
-                    os.system('./riavvio.sh test2')
+                    #os.system('./riavvio.sh test2')
 
                     # os.lseek(fd, offset, os.SEEK_SET)
-                    return 1
+                    #return 1
             elif value[0] == 1:
                 if gpiobyte == '1' or gpiobyte == '0':
                     gpioint = int(gpiobyte)
