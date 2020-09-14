@@ -39,7 +39,7 @@ echo $pass
 
 echo "restarting filesystem "$nome"!"
 
-./destroy $nome
+./destroynuovo $nome
 
 
 python3 "$pass" /sys/devices/platform/soc/3f200000.gpio /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio/ $nome &
