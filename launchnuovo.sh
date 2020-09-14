@@ -41,7 +41,7 @@ echo "risultato: " $risultato
  
 if [ $risultato -eq 0  ]; then
 	echo "esiste";
-	./destroy.sh $nome;
+	./destroynuovo.sh $nome;
 	sudo rm -rf $file.$nome.py;
 else 
 	echo "non esiste"; 
