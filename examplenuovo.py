@@ -511,6 +511,7 @@ class Operations(pyfuse3.Operations):
         # ff=gpioint
         # f=gpio
         gpiobyte = buf.decode()
+
         print("buf: ", buf, "gpiobyte: ", gpiobyte)
         print("self: ", self, "offset: ", offset)
 
@@ -523,7 +524,6 @@ class Operations(pyfuse3.Operations):
 
         if export[0] == 1 and unexport[0] == 0:
             print("1export")
-
             gpioint = int(gpiobyte)
             print("write\n buf: ", buf, "fd: ", fd)
             print("numerogpiobyte: ", gpiobyte)
@@ -568,6 +568,7 @@ class Operations(pyfuse3.Operations):
 
             print("1non dovrebbe capitare: echo direction value\n")
             print("buff:", buf)
+            print("gpiobyte: ",gpiobyte)
             print("buf decodificato:", gpiobyte)
             gpiobyte = gpiobyte.strip('\n')
             print("buf decodificato senzsa\\n:", gpiobyte)
@@ -628,21 +629,26 @@ class Operations(pyfuse3.Operations):
                     # os.lseek(fd, offset, os.SEEK_SET)
                     #return 1
             elif value[0] == 1:
+
+                pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
+                basename = os.path.basename(ultimopath[0])
+                basename = '/' + basename
+                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+                gpio = os.path.dirname(pathmod)
+                print("gpio:", gpio)
+                valueprecedente = os.popen('cat /sys/class/gpio/' + gpio + '/value').read()
+                valueprecedente = valueprecedente.strip('\n')
+                print("value precedente: ", valueprecedente)
+
                 if gpiobyte == '1' or gpiobyte == '0':
                     gpioint = int(gpiobyte)
-                    gpio = str(gpioint)
+                    #gpio = str(gpioint)
                     print("caso value:")
-
-                    pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
-                    basename = os.path.basename(ultimopath[0])
-                    basename = '/' + basename
-                    print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
-                    gpio = os.path.dirname(pathmod)
-                    print("gpio:", gpio)
 
                     valoredirezione = os.popen('cat /sys/class/gpio/' + gpio + '/direction').read()
                     valoredirezione = valoredirezione.strip('\n')
                     print("valore direzione: ", valoredirezione)
+
 
                     if valoredirezione == 'out':
                         if gpiobyte == '0' or gpiobyte == '1':
@@ -651,16 +657,20 @@ class Operations(pyfuse3.Operations):
                         else:
                             print("errore valori non accettati")
                             os.lseek(fd, offset, os.SEEK_SET)
-                            os.system('./riavvio.sh test2')
                             return 1
                     else:
                         print("errore: non puoi modificare value se direction è in!")
+
+                        print("valueprecedente:",valueprecedente)
+                        #proc3 = subprocess.Popen('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value', shell=True, stdout=subprocess.PIPE)
+                        print('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value')
                         os.lseek(fd, offset, os.SEEK_SET)
-                        os.system('./riavvio.sh test2')
+                        #os.lseek(fd, offset, os.SEEK_SET)
                         return 1
                 else:
                     print("errore carattere")
-                    os.system('./riavvio.sh test2')
+                    proc2 = subprocess.Popen('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value', shell=True, stdout=subprocess.PIPE)
+                    os.lseek(fd, offset, os.SEEK_SET)
                     return 1
 
 
