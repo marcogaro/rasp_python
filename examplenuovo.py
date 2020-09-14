@@ -676,11 +676,25 @@ class Operations(pyfuse3.Operations):
 
             elif active[0] == 1:
                 print("caso active:")
+                pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
+                basename = os.path.basename(ultimopath[0])
+                basename = '/' + basename
+                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+                gpio = os.path.dirname(pathmod)
+                print("gpio:", gpio)
+                activeprecedente = os.popen('cat /sys/class/gpio/' + gpio + '/active_low').read()
+                activeprecedente = activeprecedente.strip('\n')
+                print("active precedente: ", activeprecedente)
+
+
                 if gpiobyte == '0' or gpiobyte == '1':
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
                     print("errore")
+                    proc2 = subprocess.Popen('echo ' + activeprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/active_low',
+                        shell=True, stdout=subprocess.PIPE)
+
                     os.lseek(fd, offset, os.SEEK_SET)
                     return 1
 
