@@ -3,7 +3,7 @@
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
     	echo "nome container già inserito: "$nome ;
-elif ["$#" -eq 0] ; then
+elif [ "$#" -eq 0 ] ; then
 	echo "inserisci nome container: "
 	read -r b
 	#echo $b
