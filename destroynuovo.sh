@@ -2,27 +2,21 @@
 
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
-    	echo "nome container già inserito: "$nome ;
+    	echo "virtual rasp name: "$nome ;
 elif [ "$#" -eq 0 ] ; then
-	echo "inserisci nome container: "
+	echo "virtual rasp name? "
 	read -r b
 	#echo $b
 	nome=$b ;	
 else
-   	echo "errore" 
+   	echo "error" 
    	exit
 fi
 
 
 
 
-pass=passt3.5
-
-
 echo "Destroying virtual rasp "$nome"!"
-
-
-
 
 sudo umount /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio
 sudo umount /gpio_mnt/"$nome"/sys/class/gpio
