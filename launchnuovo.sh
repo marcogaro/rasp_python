@@ -10,9 +10,9 @@ file=passt3.5
 
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
-    	echo "name of virtual_rasp: "$nome ;
+    	echo "name of virtual rasp: "$nome ;
 elif [ "$#" -eq 0 ] ; then
-	echo "name of virtual_rasp? "
+	echo "name of virtual rasp? "
 	read -r b
 	#echo $b
 	nome=$b ;	
@@ -41,28 +41,26 @@ fi
    
    
 
-pass=""$file"."$nome".py"
+
 pass="examplenuovo.py"
 
 echo "$nome"
 echo "$pass"
    
    
-   
-echo $nome
-echo "$pass"
+
    
    
 lxc list  -c n | grep -w $nome
-risultato=$?
-echo "risultato: " $risultato 
+result=$?
+echo "result: " $result 
  
-if [ $risultato -eq 0  ]; then
-	echo "esiste";
+if [ $result -eq 0  ]; then
+	echo "virtual rasp already exists";
 	./destroynuovo.sh $nome;
 	#sudo rm -rf $file.$nome.py;
 else 
-	echo "non esiste"; 
+	echo "virtual rasp doesn't exist"; 
 fi
 
 
