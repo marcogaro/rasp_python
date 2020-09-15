@@ -2,11 +2,10 @@
 
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
-    	echo "nome container già inserito: "$nome ;
+    	echo "name virtual rasp: "$nome ;
 elif [ "$#" -eq 0 ] ; then
-	echo "inserisci nome container: "
+	echo "name virtual rasp? "
 	read -r b
-	#echo $b
 	nome=$b ;	
 else
    	echo "errore" 
@@ -14,37 +13,20 @@ else
 fi
 
 
-
-
-echo nome della raspberry: $nome
+echo "name virtual rasp: "$nome
 
 grep -w $nome example.ini
 result=$?
 echo "result: " $result 
  
 if [ $result -eq 0  ]; then
-	echo "esiste";
+	echo "name in example.ini";
 else 
-	echo "non esiste il nome nel file di configurazione"; 
+	echo "missing name in  example.ini"; 
 	exit;
 fi
 
 
-
-
-#file=passt3.5
-
-
-
-
-#sudo rm -rf $file.$nome.py
-
-#creo passt
-#sed 's/test2/'$nome'/g' example.py > $file.$nome.py
-
-
-
-pass=""$file"."$nome".py"
 
 pass="examplenuovo.py"
 echo $pass
