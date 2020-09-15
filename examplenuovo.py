@@ -76,14 +76,25 @@ class Operations(pyfuse3.Operations):
         ultimopath.clear()
         ultimopath.insert(0, path)
 
-        print("\n\nultimopath: ", ultimopath, "\n\n")
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("\nultimopath: ", ultimopath, "\n")
+            print("\npath: ", path)
+            print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
 
-        print("\npath: ", path)
 
-        print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
 
         if path == '/sys/class/gpio/export':
-            print("1caso")
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("1caso")
+
             export.clear()
             export.insert(0, 1)
             unexport.clear()
@@ -97,10 +108,26 @@ class Operations(pyfuse3.Operations):
                 val.add(path)
             elif val != path:
                 self._inode_path_map[inode] = {path, val}
-            print("fine if\n\n")
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("fine if\n")
+
+
+
 
         elif path == '/sys/class/gpio/unexport':
-            print("2caso")
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("2caso")
+
+
             export.clear()
             export.insert(0, 0)
             unexport.clear()
@@ -114,7 +141,16 @@ class Operations(pyfuse3.Operations):
                 val.add(path)
             elif val != path:
                 self._inode_path_map[inode] = {path, val}
-            print("fine if\n\n")
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("fine if\n")
+
+
+
 
         else:
             export.clear()
@@ -123,15 +159,43 @@ class Operations(pyfuse3.Operations):
             unexport.insert(0, 0)
 
         x = re.search("gpio\d{1,2}", path)
-        print(x)  # this will print an object
+
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print(x)  # this will print an object
+
+
+
+
         if x:
-            print("\npath:", path)
-            print("sì, c'è gpio*")
-            print("il gpio presente nel path è:", x[0])
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("\npath:", path)
+                print("sì, c'è gpio*")
+                print("il gpio presente nel path è:", x[0])
+
+
+
+
             gpio = x[0]
 
             if path.endswith('active_low'):
-                print("caso active2")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso active2")
+
+
+
+
                 active.clear()
                 active.insert(0, 1)
             else:
@@ -139,7 +203,15 @@ class Operations(pyfuse3.Operations):
                 active.insert(0, 0)
 
             if path.endswith('direction'):
-                print("caso direction2")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso direction2")
+
+
+
                 direction.clear()
                 direction.insert(0, 1)
             else:
@@ -147,7 +219,15 @@ class Operations(pyfuse3.Operations):
                 direction.insert(0, 0)
 
             if path.endswith('edge'):
-                print("caso edge2")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso edge2")
+
+
+
                 edge.clear()
                 edge.insert(0, 1)
             else:
@@ -155,7 +235,15 @@ class Operations(pyfuse3.Operations):
                 edge.insert(0, 0)
 
             if path.endswith('value'):
-                print("caso value2")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso value2")
+
+
+
                 value.clear()
                 value.insert(0, 1)
             else:
@@ -173,16 +261,34 @@ class Operations(pyfuse3.Operations):
                     val.add(path)
                 elif val != path:
                     self._inode_path_map[inode] = {path, val}
-                print("fine if\n\n")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("fine if\n")
+
             else:
-                print("gpio non in lista, non copio")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("gpio non in lista, non copio")
+
 
 
 
 
         else:
-            print("\npath:", path)
-            print("No match\n")
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("\npath:", path)
+                print("No match\n")
+
             # posso copiare tutto
             if inode not in self._inode_path_map:
                 self._inode_path_map[inode] = path
@@ -310,7 +416,13 @@ class Operations(pyfuse3.Operations):
             self._forget_path(inode, path)
 
     def _forget_path(self, inode, path):
-        print("\nforgetpath\n\n")
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("\nforgetpath\n")
+
         log.debug('forget %s for %d', path, inode)
         val = self._inode_path_map[inode]
         if isinstance(val, set):
@@ -472,16 +584,33 @@ class Operations(pyfuse3.Operations):
         return stat_
 
     async def open(self, inode, flags, ctx):
-        print("open")
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("open")
+
         if inode in self._inode_fd_map:
             fd = self._inode_fd_map[inode]
-            print("fd:", fd)
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("fd:", fd)
+
             self._fd_open_count[fd] += 1
             return pyfuse3.FileInfo(fh=fd)
         assert flags & os.O_CREAT == 0
         try:
             fd = os.open(self._inode_to_path(inode), flags)
-            print("fd2:", fd)
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("fd2:", fd)
         except OSError as exc:
             raise FUSEError(exc.errno)
         self._inode_fd_map[inode] = fd
@@ -503,7 +632,12 @@ class Operations(pyfuse3.Operations):
         return (pyfuse3.FileInfo(fh=fd), attr)
 
     async def read(self, fd, offset, length):
-        print("leggo", fd, length)
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("leggo", fd, length)
         os.lseek(fd, offset, os.SEEK_SET)
         return os.read(fd, length)
 
@@ -512,90 +646,203 @@ class Operations(pyfuse3.Operations):
         # f=gpio
         gpiobyte = buf.decode()
 
-        print("buf: ", buf, "gpiobyte: ", gpiobyte)
-        print("self: ", self, "offset: ", offset)
+        if __debug__:
+            #print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("buf: ", buf, "gpiobyte: ", gpiobyte)
+            print("self: ", self, "offset: ", offset)
 
-        print("export: ", export)
-        print("unexport: ", unexport)
-        print("direction: ", direction)
-        print("value: ", value)
-        print("activelow: ", active)
-        print("edge: ", edge)
+            print("export: ", export)
+            print("unexport: ", unexport)
+            print("direction: ", direction)
+            print("value: ", value)
+            print("activelow: ", active)
+            print("edge: ", edge)
 
         if export[0] == 1 and unexport[0] == 0:
-            print("1export")
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("1export")
+
             gpioint = int(gpiobyte)
-            print("write\n buf: ", buf, "fd: ", fd)
-            print("numerogpiobyte: ", gpiobyte)
-            print("numerogpiointero: ", gpioint)
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("write\n buf: ", buf, "fd: ", fd)
+                print("numerogpiobyte: ", gpiobyte)
+                print("numerogpiointero: ", gpioint)
 
             gpio = str(gpioint)
             listgpio = listgpio2
-            print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
 
             print(os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
             if gpioint in listgpio and not os.path.exists('/sys/class/gpio/gpio' + gpio + '/'):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
-                print("errore")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("errore")
                 os.lseek(fd, offset, os.SEEK_SET)
                 return 1
         elif export[0] == 0 and unexport[0] == 1:
-            print("1unexport")
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("1unexport")
 
             gpioint = int(gpiobyte)
-            print("write\n buf: ", buf, "fd: ", fd)
-            print("numerogpiobyte: ", gpiobyte)
-            print("numerogpiointero: ", gpioint)
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("write\n buf: ", buf, "fd: ", fd)
+                print("numerogpiobyte: ", gpiobyte)
+                print("numerogpiointero: ", gpioint)
 
             gpio = str(gpioint)
             listgpio = listgpio2
-            print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
 
-            print('/sys/class/gpio/gpio' + gpio + '/')
-            print(os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("la lista di gpio disponibili per" + nomecontainer + "  è: ", listgpio, "\n")
+                print('/sys/class/gpio/gpio' + gpio + '/')
+                print(os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
+
+
             if gpioint in listgpio and os.path.exists('/sys/class/gpio/gpio' + gpio + '/'):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
-                print("errore")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("errore gpio non in lista")
                 os.lseek(fd, offset, os.SEEK_SET)
                 return 1
         # elif export[0] == 0 and unexport[0] == 0:
         #    print("1indefinito")
         else:
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("1non dovrebbe capitare: echo direction value\n")
+                print("buff:", buf)
+                print("gpiobyte: ",gpiobyte)
+                print("buf decodificato:", gpiobyte)
 
-            print("1non dovrebbe capitare: echo direction value\n")
-            print("buff:", buf)
-            print("gpiobyte: ",gpiobyte)
-            print("buf decodificato:", gpiobyte)
             gpiobyte = gpiobyte.strip('\n')
-            print("buf decodificato senzsa\\n:", gpiobyte)
+
+            if __debug__:
+                #print('Debug OFF')
+                pass
+            else:
+                print('Debug ON')
+                print("buf decodificato senzsa\\n:", gpiobyte)
 
             if direction[0] == 1:
-                print("caso direction:")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso direction:")
+
                 pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
                 basename = os.path.basename(ultimopath[0])
                 basename = '/' + basename
-                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+
                 gpio = os.path.dirname(pathmod)
-                print("gpio:", gpio)
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("gpio:", gpio)
+
                 valoredirezioneprima = os.popen('cat /sys/class/gpio/' + gpio + '/direction').read()
                 valoredirezioneprima = valoredirezioneprima.strip('\n')
-                print("valore direzione", valoredirezioneprima)
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("valore direzione", valoredirezioneprima)
+
                 stringa='\n'
-                print("il valore direzione prima di essere aggiornato è: ", valoredirezioneprima, 'b\''+valoredirezioneprima+stringa )
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("il valore direzione prima di essere aggiornato è: ", valoredirezioneprima, 'b\''+valoredirezioneprima+stringa )
+
                 valoredirezioneprimabyte = valoredirezioneprima+stringa
                 valoredirezioneprimabyte = valoredirezioneprima.encode()
-                print("attenszione: ", valoredirezioneprimabyte)
-                print("buff:", buf, "fd:", fd)
+
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("attenzione: ", valoredirezioneprimabyte)
+                    print("buff:", buf, "fd:", fd)
+
                 if gpiobyte == 'in' or gpiobyte == 'out':
-                    print("ok1")
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("ok1")
+
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("errore1")
+                    print("\n-bash: echo: write error: Invalid argument")
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("errore1")
+
                     #os.system('echo in > /gpio_mnt/test1/sys/class/gpio/gpio1/direction')
                     proc = subprocess.Popen('echo '+valoredirezioneprima+' > /gpio_mnt/'+nomecontainer+'/sys/class/gpio/'+gpio+'/direction', shell=True, stdout=subprocess.PIPE)
 
@@ -633,21 +880,49 @@ class Operations(pyfuse3.Operations):
                 pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
                 basename = os.path.basename(ultimopath[0])
                 basename = '/' + basename
-                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
                 gpio = os.path.dirname(pathmod)
-                print("gpio:", gpio)
+
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("gpio:", gpio)
+
                 valueprecedente = os.popen('cat /sys/class/gpio/' + gpio + '/value').read()
                 valueprecedente = valueprecedente.strip('\n')
-                print("value precedente: ", valueprecedente)
+
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("value precedente: ", valueprecedente)
 
                 if gpiobyte == '1' or gpiobyte == '0':
                     gpioint = int(gpiobyte)
                     #gpio = str(gpioint)
-                    print("caso value:")
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("caso value:")
 
                     valoredirezione = os.popen('cat /sys/class/gpio/' + gpio + '/direction').read()
                     valoredirezione = valoredirezione.strip('\n')
-                    print("valore direzione: ", valoredirezione)
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("valore direzione: ", valoredirezione)
 
 
                     if valoredirezione == 'out':
@@ -655,43 +930,89 @@ class Operations(pyfuse3.Operations):
                             os.lseek(fd, offset, os.SEEK_SET)
                             return os.write(fd, buf)
                         else:
-                            print("errore valori non accettati")
+                            print("stampare errore copiato dal rasp fisico")
+                            if __debug__:
+                                #print('Debug OFF')
+                                pass
+                            else:
+                                print('Debug ON')
+                                print("errore valori non accettati")
+
                             os.lseek(fd, offset, os.SEEK_SET)
                             return 1
                     else:
-                        print("errore: non puoi modificare value se direction è in!")
+                        print("errore: non puoi modificare value se direction è in! (in inglese)")
+                        if __debug__:
+                            #print('Debug OFF')
+                            pass
+                        else:
+                            print('Debug ON')
+                            print("errore: non puoi modificare value se direction è in!")
+                            print("valueprecedente:",valueprecedente)
+                            print('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value')
 
-                        print("valueprecedente:",valueprecedente)
                         #proc3 = subprocess.Popen('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value', shell=True, stdout=subprocess.PIPE)
-                        print('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value')
                         os.lseek(fd, offset, os.SEEK_SET)
-                        #os.lseek(fd, offset, os.SEEK_SET)
                         return 1
                 else:
-                    print("errore carattere")
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("errore carattere")
+
                     proc2 = subprocess.Popen('echo ' + valueprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/value', shell=True, stdout=subprocess.PIPE)
                     os.lseek(fd, offset, os.SEEK_SET)
                     return 1
 
 
             elif active[0] == 1:
-                print("caso active:")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("caso active:")
+
                 pathmod = os.path.relpath(ultimopath[0], '/sys/devices/platform/soc/3f200000.gpio/gpiochip0/gpio/')
                 basename = os.path.basename(ultimopath[0])
                 basename = '/' + basename
-                print("\n\n\npathmod:", pathmod, "basename:", basename, "\n\n\n")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("\npathmod:", pathmod, "basename:", basename, "\n")
                 gpio = os.path.dirname(pathmod)
-                print("gpio:", gpio)
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("gpio:", gpio)
                 activeprecedente = os.popen('cat /sys/class/gpio/' + gpio + '/active_low').read()
                 activeprecedente = activeprecedente.strip('\n')
-                print("active precedente: ", activeprecedente)
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("active precedente: ", activeprecedente)
 
 
                 if gpiobyte == '0' or gpiobyte == '1':
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("errore")
+                    print("errore da vedere sul rasp fisico")
+                    if __debug__:
+                        #print('Debug OFF')
+                        pass
+                    else:
+                        print('Debug ON')
+                        print("errore")
+
                     proc2 = subprocess.Popen('echo ' + activeprecedente + ' > /gpio_mnt/' + nomecontainer + '/sys/class/gpio/' + gpio + '/active_low',
                         shell=True, stdout=subprocess.PIPE)
 
@@ -699,7 +1020,12 @@ class Operations(pyfuse3.Operations):
                     return 1
 
             else:
-                print("errore2")
+                if __debug__:
+                    #print('Debug OFF')
+                    pass
+                else:
+                    print('Debug ON')
+                    print("errore2")
                 os.lseek(fd, offset, os.SEEK_SET)
                 return 1
 
@@ -804,11 +1130,21 @@ if __name__ == '__main__':
 
     nomeconfigparser = 0
 
-    print('Number of arguments:', len(sys.argv), 'arguments.')
-    print('Argument List:', str(sys.argv))
+    if __debug__:
+        #print('Debug OFF')
+        pass
+    else:
+        print('Debug ON')
+        print('Number of arguments:', len(sys.argv), 'arguments.')
+        print('Argument List:', str(sys.argv))
 
     nomecontainer = sys.argv[3]
-    print("nome container: ", nomecontainer)
+    if __debug__:
+        #print('Debug OFF')
+        pass
+    else:
+        print('Debug ON')
+        print("nome container: ", nomecontainer)
 
     # listgpio = ["gpiochip0", "gpiochip504", "export"]
     listgpio = ["gpiochip0", "gpiochip504", "export", "unexport"]
