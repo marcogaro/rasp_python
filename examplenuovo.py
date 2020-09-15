@@ -947,7 +947,7 @@ class Operations(pyfuse3.Operations):
                             os.lseek(fd, offset, os.SEEK_SET)
                             return 1
                     else:
-                        print("errore: non puoi modificare value se direction è in! (in inglese)")
+                        print("\n-bash: echo: write error: Operation not permitted")
                         if __debug__:
                             #print('Debug OFF')
                             pass
