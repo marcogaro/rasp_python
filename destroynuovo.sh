@@ -29,11 +29,11 @@ sudo umount /gpio_mnt/"$nome"/sys/class/gpio
 
 sudo rm -rf $pass.$nome.py
 
-sudo umount /gpio_mnt/sys/devices/platform/soc/soc\:firmware/soc\:firmware\:expgpio/gpio/gpiochip504/
+#sudo umount /gpio_mnt/sys/devices/platform/soc/soc\:firmware/soc\:firmware\:expgpio/gpio/gpiochip504/
 sudo umount --force /gpio_mnt/"$nome"/sys/devices/platform/soc/3f200000.gpio
 sudo umount --force /gpio_mnt/"$nome"/sys/class/gpio
 
-sudo umount --force /gpio_mnt/sys/devices/platform/soc/soc\:firmware/soc\:firmware\:expgpio/gpio/gpiochip504/
+#sudo umount --force /gpio_mnt/sys/devices/platform/soc/soc\:firmware/soc\:firmware\:expgpio/gpio/gpiochip504/
 
 lxc config device remove "$nome" gpio disk 
 lxc config device remove "$nome" devices disk
