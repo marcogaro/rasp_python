@@ -1,20 +1,11 @@
 #!/bin/bash
 
-#echo "nome container: "
-
-file=passt3.5
-
-#read -r b
-#echo $b
-
-
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
     	echo "name of virtual rasp: "$nome ;
 elif [ "$#" -eq 0 ] ; then
 	echo "name of virtual rasp? "
 	read -r b
-	#echo $b
 	nome=$b ;	
 else
    	echo "error" 
@@ -22,9 +13,6 @@ else
 fi
    
    
-   
-   
-
 grep -w $nome example.ini
 result=$?
 echo "result: " $result 
@@ -32,23 +20,14 @@ echo "result: " $result
 if [ $result -eq 0  ]; then
 	echo "name in example.ini";
 else 
-	echo "missing name in  example.ini"; 
+	echo "missing name in example.ini"; 
 	exit;
 fi
    
-   
-   
-   
-   
-
-
 pass="examplenuovo.py"
 
 echo "$nome"
 echo "$pass"
-   
-   
-
    
    
 lxc list  -c n | grep -w $nome
@@ -62,9 +41,6 @@ else
 	echo "virtual rasp doesn't exist"; 
 fi
 
-
-
-  
    
 lxc list   
   
