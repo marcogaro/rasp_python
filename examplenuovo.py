@@ -697,6 +697,7 @@ class Operations(pyfuse3.Operations):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
+                print("\n-bash: echo: write error: Device or resource busy")
                 if __debug__:
                     #print('Debug OFF')
                     pass
@@ -705,6 +706,8 @@ class Operations(pyfuse3.Operations):
                     print("errore")
                 os.lseek(fd, offset, os.SEEK_SET)
                 return 1
+
+
         elif export[0] == 0 and unexport[0] == 1:
             if __debug__:
                 #print('Debug OFF')
@@ -741,6 +744,7 @@ class Operations(pyfuse3.Operations):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
+                print("\n-bash: echo: write error: Invalid argument")
                 if __debug__:
                     #print('Debug OFF')
                     pass
