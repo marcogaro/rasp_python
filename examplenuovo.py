@@ -689,9 +689,11 @@ class Operations(pyfuse3.Operations):
             else:
                 print('Debug ON')
                 print("la lista di gpio disponibili per test2 è: ", listgpio, "\n")
+                print(os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
 
-            print(os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
             if gpioint in listgpio and not os.path.exists('/sys/class/gpio/gpio' + gpio + '/'):
+                #print("VISCION TRUE")
+                #print("\nqua:", os.path.exists('/sys/class/gpio/gpio' + gpio + '/'))
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
