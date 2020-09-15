@@ -10,14 +10,14 @@ file=passt3.5
 
 if [ "$#" -eq 1 ] ; then
     	nome=$1	
-    	echo "nome container inserito: "$nome ;
+    	echo "name of virtual_rasp: "$nome ;
 elif [ "$#" -eq 0 ] ; then
-	echo "inserisci nome container: "
+	echo "name of virtual_rasp? "
 	read -r b
 	#echo $b
 	nome=$b ;	
 else
-   	echo "errore" 
+   	echo "error" 
    	exit
 fi
    
@@ -30,9 +30,9 @@ result=$?
 echo "result: " $result 
  
 if [ $result -eq 0  ]; then
-	echo "esiste";
+	echo "name in example.ini";
 else 
-	echo "non esiste il nome nel file di configurazione"; 
+	echo "missing name in  example.ini"; 
 	exit;
 fi
    
