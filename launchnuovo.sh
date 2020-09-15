@@ -25,6 +25,22 @@ fi
    
    
 
+grep -w $nome example.ini
+result=$?
+echo "result: " $result 
+ 
+if [ $result -eq 0  ]; then
+	echo "esiste";
+else 
+	echo "non esiste il nome nel file di configurazione"; 
+	exit;
+fi
+   
+   
+   
+   
+   
+
 pass=""$file"."$nome".py"
 pass="examplenuovo.py"
 
