@@ -961,6 +961,7 @@ class Operations(pyfuse3.Operations):
                         os.lseek(fd, offset, os.SEEK_SET)
                         return 1
                 else:
+                    print("\n-bash: echo: write error: Invalid argument")
                     if __debug__:
                         #print('Debug OFF')
                         pass
@@ -1011,7 +1012,7 @@ class Operations(pyfuse3.Operations):
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("errore da vedere sul rasp fisico")
+                    print("\n-bash: echo: write error: Invalid argument")
                     if __debug__:
                         #print('Debug OFF')
                         pass
