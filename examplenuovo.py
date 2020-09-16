@@ -956,6 +956,21 @@ class Operations(pyfuse3.Operations):
                     #proc6 = subprocess.Popen(['/bin/echo', ' 0 > /gpio_mnt/sys/class/gpio/gpio1/value'], shell=False, stdout=subprocess.PIPE)
 
                     #process = subprocess.Popen(['echo 0 > /gpio_mnt/test1/sys/class/gpio/gpio1/value'], shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+                    #process.wait()
+
+                    command = 'echo 1 > /gpio_mnt/test1/sys/class/gpio/gpio1/value'
+
+                    #f = open("/gpio_mnt/test1/sys/class/gpio/gpio1/value", "b")
+                    #f = open("/gpio_mnt/test1/sys/class/gpio/gpio1/value", mode='w', encoding='utf-8')
+                    #f.write("1")
+                    #f.close()
+
+
+
+
+
+
+
                     #result = subprocess.run(['echo', ' 1 > /gpio_mnt/test1/sys/class/gpio/gpio1/value'], stdout=subprocess.PIPE)
                     command = 'echo 1 > /gpio_mnt/test1/sys/class/gpio/gpio1/value'
                     #subprocess.call(shlex.split(command), shell=True)
@@ -1197,10 +1212,22 @@ if __name__ == '__main__':
     listgpio = ["gpiochip0", "gpiochip504", "export", "unexport"]
 
     if nomecontainer in config.sections():
-        print("nome container presente nel file di configurazione")
+        if __debug__:
+            # print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("nome container presente nel file di configurazione")
+
         nomeconfigparser = 1
     else:
-        print("nome container non presente nel file di configurazione\n\n\n")
+        if __debug__:
+            # print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("nome container non presente nel file di configurazione\n\n\n")
+
         nomeconfigparser = 0
 
 
@@ -1219,10 +1246,15 @@ if __name__ == '__main__':
             if config[nomecontainer]['gpio' + str(count)] == 'yes':
                 # print(count, "gpio" + str(count), "ok")
                 listgpio2.append(count)
-            print("\n")
+
 
     else:
-        print("il nome del container non è all'interno del file di configurazione")
+        if __debug__:
+            # print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("il nome del container non è all'interno del file di configurazione")
 
 
 
