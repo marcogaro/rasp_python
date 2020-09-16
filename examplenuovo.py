@@ -391,7 +391,13 @@ class Operations(pyfuse3.Operations):
             self._add_path(attr.st_ino, os.path.join(path, name))
 
     async def unlink(self, inode_p, name, ctx):
-        print("\nunlink\n\n")
+        if __debug__:
+            # print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("\nunlink\n\n")
+
         name = fsdecode(name)
         parent = self._inode_to_path(inode_p)
         path = os.path.join(parent, name)
@@ -404,7 +410,13 @@ class Operations(pyfuse3.Operations):
             self._forget_path(inode, path)
 
     async def rmdir(self, inode_p, name, ctx):
-        print("\nrmdir\n\n")
+        if __debug__:
+            # print('Debug OFF')
+            pass
+        else:
+            print('Debug ON')
+            print("\nrmdir\n\n")
+
         name = fsdecode(name)
         parent = self._inode_to_path(inode_p)
         path = os.path.join(parent, name)
@@ -698,7 +710,7 @@ class Operations(pyfuse3.Operations):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
-                print("\n-bash: echo: write error: Device or resource busy\n")
+                print("\n-bash: echo: write error: Device or resource busy")
                 if __debug__:
                     #print('Debug OFF')
                     pass
@@ -745,7 +757,7 @@ class Operations(pyfuse3.Operations):
                 os.lseek(fd, offset, os.SEEK_SET)
                 return os.write(fd, buf)
             else:
-                print("\n-bash: echo: write error: Invalid argument\n")
+                print("\n-bash: echo: write error: Invalid argument")
                 if __debug__:
                     #print('Debug OFF')
                     pass
@@ -842,7 +854,7 @@ class Operations(pyfuse3.Operations):
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("\n-bash: echo: write error: Invalid argument\n")
+                    print("\n-bash: echo: write error: Invalid argument")
                     if __debug__:
                         #print('Debug OFF')
                         pass
@@ -940,7 +952,7 @@ class Operations(pyfuse3.Operations):
                         return os.write(fd, buf)
 
                     else:
-                        print("\n-bash: echo: write error: Invalid argument1\n")
+                        print("\n-bash: echo: write error: Invalid argument1")
                         if __debug__:
                             # print('Debug OFF')
                             pass
@@ -980,7 +992,7 @@ class Operations(pyfuse3.Operations):
                     #res = subprocess.run("echo 1 > /gpio_mnt/test1/sys/class/gpio/gpio1/value", shell=True, check=True)
                     #print(res)
 
-                    print("\n-bash: echo: write error: Invalid argument2\n")
+                    print("\n-bash: echo: write error: Invalid argument2")
                     if __debug__:
                         # print('Debug OFF')
                         pass
@@ -1067,7 +1079,7 @@ class Operations(pyfuse3.Operations):
                     os.lseek(fd, offset, os.SEEK_SET)
                     return os.write(fd, buf)
                 else:
-                    print("\n-bash: echo: write error: Invalid argument\n")
+                    print("\n-bash: echo: write error: Invalid argument")
                     if __debug__:
                         #print('Debug OFF')
                         pass
