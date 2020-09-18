@@ -29,11 +29,15 @@ sudo umount --force /gpio_mnt/"$nome"/sys/class/gpio
 
 #sudo umount --force /gpio_mnt/sys/devices/platform/soc/soc\:firmware/soc\:firmware\:expgpio/gpio/gpiochip504/
 
-lxc config device remove "$nome" gpio disk 
-lxc config device remove "$nome" devices disk
-lxc config device remove "$nome" soc disk
-lxc config device remove "$nome" firmware disk
-lxc config device remove "$nome" bus disk
+lxc config device remove "$nome" gpio 
+lxc config device remove "$nome" devices
+lxc config device remove "$nome" soc
+lxc config device remove "$nome" gpiomnt
+lxc config device remove "$nome" devicesmnt
+lxc config device remove "$nome" socmnt
+
+#lxc config device remove "$nome" firmware disk
+#lxc config device remove "$nome" bus disk
 
 sudo rm -rf /gpio_mnt/"$nome"
 #sudo rm -rf /gpio_mnt/
